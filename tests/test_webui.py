@@ -87,5 +87,21 @@ def test_malformed_plan_does_not_crash_renderer():
     assert "VoltWise" in html
 
 
+def test_dashboard_has_hero_chart_and_navigation():
+    html = render_plan_html({
+        "status": "OPTIMAL", "warnings": [], "baseline_method": "test_v1",
+        "slots": [{"timestamp": "2026-11-24T10:00:00+00:00", "price": 0.1,
+                   "battery_kw": 1.0, "battery_soc_pct": 50,
+                   "grid_import_kw": 0.5, "grid_export_kw": 0,
+                   "solar_kw": 0, "consumption_kw": 0.5, "cost": 0.1}],
+    })
+    assert "Estimated savings" in html
+    assert "conic-gradient" in html          # SOC donut ring
+    assert "<svg" in html and "Battery power" in html  # schedule chart
+    assert 'href="#schedule"' in html        # sticky section navigation
+    assert "Power flow" in html
+    assert "test_v1" in html
+
+
 def test_handler_factory_is_callable():
     assert callable(create_handler(Path("plan.json")))
