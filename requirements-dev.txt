@@ -1,6 +1,7 @@
+# Pinned to the exact versions used by the green local and CI runs.
 -r requirements.txt
-pytest>=8.0
-ruff>=0.6
-mypy>=1.10
-bandit>=1.7
-pip-audit>=2.7
+pytest==9.2.0
+ruff==0.17.6
+mypy==2.4.1
+bandit==1.9.4
+pip-audit==2.10.1

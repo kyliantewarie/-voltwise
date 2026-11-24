@@ -114,6 +114,19 @@ end-to-end demonstration or `python -m pytest tests/test_simulator.py` for the
 functional checks (watchdog, ramp limits, BMS cut-offs, rollback, circuit
 breaker, closed-loop feedback). It cannot replace real electrical commissioning.
 
+Example output from `python -m simulator.runner --cycles 4`:
+`exit_code 0` on every cycle; SOC moves 50% → 47.4% → 49.6% → 95.0% → 90.1%
+as the optimiser discharges at a cheap moment, charges during cheap prices, then
+discharges again — with `failed_service_calls: 0` and HA helper setpoints written.
+`tests/test_simulator_scenarios.py` adds full-battery, zero-import-limit, feed-in,
+EV-deadline and 15/30/60-minute cases.
+
+## Contributing
+
+Contributions are welcome; see `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`.
+Bug reports and feature requests use the GitHub issue templates. For security
+issues, follow `docs/SECURITY.md` instead of opening a public issue.
+
 ## Supported hardware
 
 VoltWise writes HA helper entities, not devices. Commissioning steps and the

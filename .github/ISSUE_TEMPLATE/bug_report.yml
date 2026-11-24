@@ -1,0 +1,53 @@
+name: Bug report
+description: Report incorrect behaviour in VoltWise
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please remove API keys, tokens and other secrets before attaching configs or logs.
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installation method
+      options:
+        - Add-on (HA OS)
+        - HACS integration
+        - Standalone Docker
+        - pip install
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration (secrets removed)
+      render: json
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log lines
+      render: shell
+  - type: textarea
+    id: plan
+    attributes:
+      label: Plan JSON (if relevant)
+      render: json
