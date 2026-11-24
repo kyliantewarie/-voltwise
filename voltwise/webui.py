@@ -135,6 +135,14 @@ class VoltWiseHTTPServer(ThreadingHTTPServer):
 
     daemon_threads = True
 
+    def handle_error(self, request, client_address) -> None:
+        # socketserver calls this on the SERVER, not on the request handler.
+        # Abrupt disconnects from slow/browsing clients are expected noise.
+        if isinstance(sys.exc_info()[1], (TimeoutError, ConnectionResetError,
+                                         BrokenPipeError, ConnectionAbortedError)):
+            return
+        super().handle_error(request, client_address)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.active_connections: set[socket.socket] = set()
@@ -173,13 +181,6 @@ def create_handler(plan_path: Path, *, restrict_clients: bool = False):
         def finish(self) -> None:
             self.server.active_connections.discard(self.connection)  # type: ignore[attr-defined]
             super().finish()
-
-        def handle_error(self, request, client_address) -> None:
-            # Timeouts and abrupt peer resets are expected from slow clients.
-            if isinstance(sys.exc_info()[1], (TimeoutError, ConnectionResetError,
-                                             BrokenPipeError, ConnectionAbortedError)):
-                return
-            super().handle_error(request, client_address)  # type: ignore[misc]
 
         def _reply(self, status: int, body: bytes, content_type: str) -> None:
             self.send_response(status)
