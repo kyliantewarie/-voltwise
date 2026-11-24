@@ -21,7 +21,7 @@ from .models import PricePoint
 
 _AREA_RE = re.compile(r"^[A-Za-z0-9_-]{1,16}$")
 # Nord Pool's CDN (Cloudflare) rejects the default urllib user agent (HTTP 1010).
-USER_AGENT = "VoltWise/0.1.0 (+https://github.com/example/voltwise)"
+USER_AGENT = "VoltWise/0.1.0 (+https://github.com/kyliantewarie/-voltwise)"
 
 
 class PriceFetchError(RuntimeError):

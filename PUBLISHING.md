@@ -7,7 +7,7 @@ No remote is configured: add one and push to trigger CI (including the Docker
 image build, which cannot run locally):
 
 ```powershell
-git remote add origin <YOUR_REPO_URL>
+git remote add origin https://github.com/kyliantewarie/-voltwise.git
 git push -u origin main --follow-tags
 ```
 
