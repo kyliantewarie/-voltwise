@@ -103,7 +103,13 @@ class TariffProvider(ABC):
         if len(body) > self.config.max_response_bytes:
             raise PriceFetchError("tariff response exceeds maximum allowed size")
         try:
-            return json.loads(body.decode("utf-8"))
+            decoded = body.decode("utf-8")
+            from .json_safe import JsonTooDeep, ensure_json_depth
+
+            ensure_json_depth(decoded)
+            return json.loads(decoded)
+        except JsonTooDeep:
+            raise PriceFetchError("tariff endpoint returned excessively nested JSON") from None
         except (ValueError, UnicodeDecodeError):
             raise PriceFetchError("tariff endpoint returned invalid JSON") from None
         except RecursionError:

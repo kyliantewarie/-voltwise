@@ -120,7 +120,11 @@ class HomeAssistantClient:
         if not body:
             return {}
         try:
-            result = json.loads(body.decode("utf-8"))
+            decoded = body.decode("utf-8")
+            from .json_safe import ensure_json_depth
+
+            ensure_json_depth(decoded)
+            result = json.loads(decoded)
         except (ValueError, UnicodeDecodeError, RecursionError):
             self._record_failure()
             raise HomeAssistantError("Home Assistant returned invalid JSON") from None
