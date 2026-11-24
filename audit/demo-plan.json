@@ -2,7 +2,7 @@
   "status": "OPTIMAL",
   "baseline_method": "battery_idle_export_capped_economic_curtailment_v1",
   "baseline_is_estimate": true,
-  "created_at": "2026-11-20T14:16:52.520393+00:00",
+  "created_at": "2026-11-24T10:13:43.652746+00:00",
   "warnings": [],
   "total_cost": 0.335218,
   "baseline_cost": 0.927526,
@@ -12,7 +12,7 @@
   "slots": [
     {
       "index": 0,
-      "timestamp": "2026-11-20T14:00:00+00:00",
+      "timestamp": "2026-11-24T10:00:00+00:00",
       "price": 0.05,
       "feed_in_price": 0.0,
       "solar_kw": 0.0,
@@ -28,7 +28,7 @@
     },
     {
       "index": 1,
-      "timestamp": "2026-11-20T15:00:00+00:00",
+      "timestamp": "2026-11-24T11:00:00+00:00",
       "price": 0.04,
       "feed_in_price": 0.0,
       "solar_kw": 0.0,
@@ -44,7 +44,7 @@
     },
     {
       "index": 2,
-      "timestamp": "2026-11-20T16:00:00+00:00",
+      "timestamp": "2026-11-24T12:00:00+00:00",
       "price": 0.03,
       "feed_in_price": 0.0,
       "solar_kw": 0.0,
@@ -60,7 +60,7 @@
     },
     {
       "index": 3,
-      "timestamp": "2026-11-20T17:00:00+00:00",
+      "timestamp": "2026-11-24T13:00:00+00:00",
       "price": 0.02,
       "feed_in_price": 0.0,
       "solar_kw": 0.0,
@@ -76,7 +76,7 @@
     },
     {
       "index": 4,
-      "timestamp": "2026-11-20T18:00:00+00:00",
+      "timestamp": "2026-11-24T14:00:00+00:00",
       "price": 0.1,
       "feed_in_price": 0.0,
       "solar_kw": 2.0,
@@ -92,7 +92,7 @@
     },
     {
       "index": 5,
-      "timestamp": "2026-11-20T19:00:00+00:00",
+      "timestamp": "2026-11-24T15:00:00+00:00",
       "price": 0.3,
       "feed_in_price": 0.0,
       "solar_kw": 4.0,
@@ -108,7 +108,7 @@
     },
     {
       "index": 6,
-      "timestamp": "2026-11-20T20:00:00+00:00",
+      "timestamp": "2026-11-24T16:00:00+00:00",
       "price": 0.4,
       "feed_in_price": 0.0,
       "solar_kw": 3.0,
@@ -124,7 +124,7 @@
     },
     {
       "index": 7,
-      "timestamp": "2026-11-20T21:00:00+00:00",
+      "timestamp": "2026-11-24T17:00:00+00:00",
       "price": 0.2,
       "feed_in_price": 0.0,
       "solar_kw": 0.0,

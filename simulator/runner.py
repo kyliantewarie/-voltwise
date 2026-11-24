@@ -143,7 +143,7 @@ def run_simulation(
     step = timedelta(minutes=config.interval_minutes)
     now = datetime(2026, 11, 20, 12, 0, tzinfo=UTC)
     raw_prices = [0.05, 0.04, 0.03, 0.40, 0.50, 0.45, 0.20, 0.08]
-    prices = raw_prices * max(1, int(config.n_slots / len(raw_prices)) + 1)
+    prices = raw_prices * (cycles + config.n_slots + 2)
     server, base_url = start_fake_ha(
         sim, prices=prices[:config.n_slots + cycles + 2],
         dt_hours=config.interval_minutes / 60.0,
