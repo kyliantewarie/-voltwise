@@ -1,0 +1,236 @@
+configuration:
+  name:
+    name: Naam
+    description: Vriendelijke naam.
+  n_slots:
+    name: Planning slots
+    description: Number of intervals in the horizon.
+  interval_minutes:
+    name: Interval length
+    description: 15, 30 or 60 minutes.
+  soc_levels:
+    name: SOC resolution
+    description: Battery energy states used by the solver.
+  action_steps:
+    name: Power resolution
+    description: Power steps used by the solver.
+  solver_budget_pairs:
+    name: Solver budget
+    description: Maximum state/action pairs per cycle.
+  max_ramp_kw_per_slot:
+    name: Ramp limit
+    description: Maximum battery power change per slot.
+  licensing:
+    name: Licensing
+    description: Entitlement settings
+    fields:
+      require:
+        name: Require licence
+        description: Fail closed without a valid licence.
+      key_env:
+        name: Key variable
+        description: Environment variable holding the licence key.
+      feature:
+        name: Feature
+        description: Feature tag required by this instance.
+  battery:
+    name: Accu
+    description: Fysieke limieten.
+    fields:
+      capacity_kwh:
+        name: Capacity
+        description: Usable battery capacity in kWh.
+      initial_soc_pct:
+        name: Initial SOC
+        description: Starting state of charge.
+      soc_min_pct:
+        name: Minimum SOC
+        description: Hard lower limit.
+      soc_max_pct:
+        name: Maximum SOC
+        description: Hard upper limit.
+      reserve_soc_pct:
+        name: Reserve SOC
+        description: Operational discharge floor.
+      max_charge_kw:
+        name: Max charge
+        description: Highest AC charge power.
+      max_discharge_kw:
+        name: Max discharge
+        description: Highest AC discharge power.
+      charge_efficiency:
+        name: Charge efficiency
+        description: Fraction stored.
+      discharge_efficiency:
+        name: Discharge efficiency
+        description: Fraction delivered.
+      degradation_cost_per_kwh:
+        name: Degradation cost
+        description: Base cost per kWh throughput.
+      degradation_soc_penalty:
+        name: SOC degradation penalty
+        description: Extra wear at high SOC.
+      reserve_margin_pct:
+        name: Reserve margin
+        description: Extra reserve when solar is volatile.
+      reserve_margin_solar_threshold_kw:
+        name: Margin threshold
+        description: Solar spread that triggers the margin.
+      energy_value_per_kwh:
+        name: Stored energy value
+        description: Value of stored energy.
+      soc_entity:
+        name: SOC sensor
+        description: Live battery SOC sensor.
+  site:
+    name: Aansluiting
+    description: Netlimieten.
+    fields:
+      max_grid_import_kw:
+        name: Max import
+        description: Highest import power.
+      max_grid_export_kw:
+        name: Max export
+        description: Highest export power.
+      feed_in_factor:
+        name: Feed-in factor
+        description: Export price as fraction of spot.
+  ev:
+    name: Elektrische auto
+    description: Laadbehoefte.
+    fields:
+      capacity_kwh:
+        name: EV capacity
+        description: Usable EV battery capacity.
+      initial_soc_pct:
+        name: EV initial SOC
+        description: Starting EV state of charge.
+      target_soc_pct:
+        name: EV target SOC
+        description: Required SOC by deadline.
+      deadline_slot:
+        name: Deadline slot
+        description: Last charging slot.
+      max_charge_kw:
+        name: EV max power
+        description: Highest EV charge power.
+      charge_efficiency:
+        name: EV efficiency
+        description: Fraction stored.
+  tariff:
+    name: Tarief
+    description: Prijsbron.
+    fields:
+      provider:
+        name: Provider
+        description: manual, nordpool, tibber, octopus of home_assistant.
+      area:
+        name: Area
+        description: Price area code.
+      currency:
+        name: Currency
+        description: Currency label.
+      api_key_env:
+        name: API key variable
+        description: Environment variable with the API key.
+      timeout_seconds:
+        name: Timeout
+        description: HTTP timeout in seconds.
+      max_response_bytes:
+        name: Max response
+        description: Response size cap.
+      manual_prices:
+        name: Manual prices
+        description: Prices per slot.
+      manual_feed_in_prices:
+        name: Manual feed-in
+        description: Export prices per slot.
+      buy_fee_per_kwh:
+        name: Buy fee
+        description: Additive fee per imported kWh.
+      sell_fee_per_kwh:
+        name: Sell fee
+        description: Deducted fee per exported kWh.
+      octopus_product_code:
+        name: Octopus product code
+        description: Octopus Energy product identifier.
+      octopus_tariff_code:
+        name: Octopus tariff code
+        description: Octopus Energy tariff identifier.
+      price_entity:
+        name: Prijs-entiteit
+        description: HA-entiteit met de prijzen.
+      tomorrow_entity:
+        name: Morgen-entiteit
+        description: Optionele entiteit met morgenprijzen.
+  forecast:
+    name: Verwachting
+    description: Zon en verbruik.
+    fields:
+      provider:
+        name: Provider
+        description: manual or home_assistant.
+      solar_kw:
+        name: Solar forecast
+        description: Solar production per slot.
+      consumption_kw:
+        name: Consumption forecast
+        description: Load per slot.
+      solar_entity:
+        name: Solar sensor
+        description: HA solar forecast sensor.
+      consumption_entity:
+        name: Consumption sensor
+        description: HA load forecast sensor.
+      uncertainty_pct:
+        name: Uncertainty
+        description: Forecast error fraction for stress tests.
+  actuation:
+    name: Aansturing
+    description: Schrijven naar HA.
+    fields:
+      enabled:
+        name: Enabled
+        description: Allow writes.
+      ha_url:
+        name: HA URL
+        description: Local Home Assistant URL.
+      battery_power_entity:
+        name: Battery entity
+        description: Battery power number entity.
+      target_soc_entity:
+        name: Target SOC entity
+        description: Target SOC number entity.
+      ev_power_entity:
+        name: EV entity
+        description: EV power number entity.
+      require_confirmation:
+        name: Require confirmation
+        description: Require --confirm.
+      failure_cooldown_seconds:
+        name: Cooldown
+        description: Pause after repeated failures.
+      expiry_entity:
+        name: Expiry entity
+        description: Watchdog datetime helper.
+      apply_script:
+        name: Apply script
+        description: Atomic apply script.
+      ha_token_env:
+        name: Token variable
+        description: Restricted token environment variable.
+      max_sensor_age_seconds:
+        name: Sensor age
+        description: Maximum accepted sensor age.
+      measured_import_entity:
+        name: Measured import
+        description: Grid meter sensor.
+      adapter:
+        name: Adapter
+        description: generic, mqtt or modbus.
+      adapter_topic_prefix:
+        name: Topic prefix
+        description: Prefix for adapter topics.
+      telemetry_enabled:
+        name: Telemetrie
+        description: Schrijf kosten/besparing naar HA-helpers.

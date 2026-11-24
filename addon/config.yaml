@@ -1,0 +1,170 @@
+name: VoltWise
+version: 0.1.0
+slug: voltwise
+description: Optimise home battery and EV charging against dynamic electricity prices
+url: https://github.com/example/voltwise
+arch:
+  - aarch64
+  - amd64
+  - armv7
+# No `image` key: the Supervisor builds locally from Dockerfile + build.yaml.
+startup: services
+init: false
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:chart-line
+# Minimum Home Assistant version granting API access via the Supervisor token.
+homeassistant: "2024.6.0"
+
+# Writes are OFF by default. The operator must opt in here AND use --apply.
+options:
+  name: VoltWise
+  n_slots: 48
+  interval_minutes: 60
+  soc_levels: 201
+  action_steps: 21
+  solver_budget_pairs: 2000000
+  licensing:
+    require: true
+    key_env: VOLTWISE_LICENCE_KEY
+    feature: core
+  battery:
+    capacity_kwh: 10.0
+    initial_soc_pct: 50.0
+    soc_min_pct: 10.0
+    soc_max_pct: 95.0
+    reserve_soc_pct: 20.0
+    max_charge_kw: 5.0
+    max_discharge_kw: 5.0
+    charge_efficiency: 0.95
+    discharge_efficiency: 0.95
+    degradation_cost_per_kwh: 0.02
+    degradation_soc_penalty: 0.0
+    reserve_margin_pct: 0.0
+    reserve_margin_solar_threshold_kw: 100.0
+  site:
+    max_grid_import_kw: 10.0
+    max_grid_export_kw: 10.0
+    feed_in_factor: 0.0
+  ev:
+    capacity_kwh: 60.0
+    initial_soc_pct: 40.0
+    target_soc_pct: 80.0
+    deadline_slot: 40
+    max_charge_kw: 11.0
+    charge_efficiency: 0.95
+  tariff:
+    provider: manual
+    area: NL
+    currency: EUR
+    api_key_env: VOLTWISE_TARIFF_API_KEY
+    timeout_seconds: 10.0
+    max_response_bytes: 1000000
+    manual_prices: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    manual_feed_in_prices: []
+    buy_fee_per_kwh: 0.0
+    sell_fee_per_kwh: 0.0
+    octopus_product_code: AGILE-FLEX-22-11-25
+    octopus_tariff_code: E-1R-AGILE-FLEX-22-11-25-A
+  forecast:
+    provider: manual
+    solar_kw: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    consumption_kw: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+    solar_entity: sensor.solar_forecast
+    consumption_entity: sensor.consumption_forecast
+    uncertainty_pct: 0.0
+  actuation:
+    enabled: false
+    ha_url: http://homeassistant:8123
+    battery_power_entity: number.voltwise_battery_power
+    target_soc_entity: input_number.voltwise_target_soc
+    ev_power_entity: number.voltwise_ev_charge_power
+    require_confirmation: true
+    failure_cooldown_seconds: 900
+    expiry_entity: input_datetime.voltwise_plan_expiry
+    max_sensor_age_seconds: 900
+    adapter: generic
+    adapter_topic_prefix: voltwise
+    telemetry_enabled: false
+
+schema:
+  name: str
+  n_slots: int
+  interval_minutes: int
+  soc_levels: int
+  action_steps: int
+  solver_budget_pairs: int
+  max_ramp_kw_per_slot: 'float?'
+  licensing:
+    require: bool
+    key_env: str
+    feature: str
+  battery:
+    capacity_kwh: float
+    initial_soc_pct: float
+    soc_min_pct: float
+    soc_max_pct: float
+    reserve_soc_pct: float
+    max_charge_kw: float
+    max_discharge_kw: float
+    charge_efficiency: float
+    discharge_efficiency: float
+    degradation_cost_per_kwh: float
+    energy_value_per_kwh: 'float?'
+    soc_entity: 'str?'
+    degradation_soc_penalty: float
+    reserve_margin_pct: float
+    reserve_margin_solar_threshold_kw: float
+  site:
+    max_grid_import_kw: float
+    max_grid_export_kw: float
+    feed_in_factor: float
+  ev:
+    capacity_kwh: float
+    initial_soc_pct: float
+    target_soc_pct: float
+    deadline_slot: int
+    max_charge_kw: float
+    charge_efficiency: float
+  tariff:
+    provider: str
+    area: str
+    currency: str
+    api_key_env: str
+    timeout_seconds: float
+    max_response_bytes: int
+    manual_prices:
+      - float
+    manual_feed_in_prices:
+      - 'float?'
+    buy_fee_per_kwh: float
+    sell_fee_per_kwh: float
+    octopus_product_code: str
+    octopus_tariff_code: str
+    price_entity: 'str?'
+    tomorrow_entity: 'str?'
+  forecast:
+    provider: str
+    solar_kw:
+      - float
+    consumption_kw:
+      - float
+    solar_entity: str
+    consumption_entity: str
+    uncertainty_pct: float
+  actuation:
+    enabled: bool
+    ha_url: url
+    battery_power_entity: str
+    target_soc_entity: str
+    ev_power_entity: str
+    require_confirmation: bool
+    failure_cooldown_seconds: int
+    expiry_entity: str
+    apply_script: 'str?'
+    ha_token_env: 'str?'
+    max_sensor_age_seconds: int
+    measured_import_entity: 'str?'
+    adapter: str
+    adapter_topic_prefix: str
+    telemetry_enabled: bool

@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Lint
+        run: python -m ruff check voltwise tests audit
+      - name: Type check
+        run: python -m mypy voltwise --ignore-missing-imports
+      - name: Dependency vulnerabilities
+        run: python -m pip_audit --requirement requirements.txt --requirement requirements-dev.txt
+      - name: SAST
+        # B104 (bind all interfaces) is intentional for ingress; the UI applies
+        # a private/loopback source-IP filter and validates the host argument.
+        run: python -m bandit -q -r voltwise --skip B104
+      - name: Tests (incl. hardware-in-the-loop simulator)
+        run: python -m pytest -q
+      - name: Full audit
+        run: python audit/run_audits.py
+      - name: Release integrity artifacts
+        run: python audit/release.py
+      - name: Build standalone image
+        run: docker build -t voltwise:test .
+      - name: Verify add-on build context
+        run: python -c "import yaml,pathlib; c=yaml.safe_load(pathlib.Path('addon/config.yaml').read_text()); assert 'image' not in c"

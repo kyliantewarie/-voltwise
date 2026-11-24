@@ -1,0 +1,11 @@
+{
+  "domain": "voltwise",
+  "name": "VoltWise",
+  "codeowners": ["@voltwise"],
+  "config_flow": true,
+  "documentation": "https://github.com/example/voltwise",
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "requirements": [],
+  "version": "0.1.0"
+}

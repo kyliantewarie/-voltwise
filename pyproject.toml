@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voltwise"
+version = "0.1.0"
+description = "Dynamic-tariff battery and EV optimiser for Home Assistant"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+dependencies = ["pyyaml==6.0.3", "cryptography>=42.0.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+voltwise = "voltwise.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["voltwise*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["licence_real_key: exercise the shipped public key and licence path"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501", "B008"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = false

@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "VoltWise",
+        "description": "Add read-only sensors mirroring the VoltWise setpoints."
+      }
+    },
+    "abort": {
+      "already_configured": "VoltWise is already configured."
+    }
+  }
+}

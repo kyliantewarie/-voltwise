@@ -1,0 +1,37 @@
+# Copy into Home Assistant's automations.yaml (or merge via UI automation).
+# This is the physical fail-safe: if VoltWise stops updating the expiry helper,
+# all actuated setpoints are forced to a safe state.
+- alias: VoltWise watchdog - force safe setpoints
+  id: voltwise_watchdog_force_safe
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: input_datetime.voltwise_plan_expiry
+    - platform: time_pattern
+      minutes: "/5"
+  condition:
+    - condition: template
+      value_template: >-
+        {{ as_timestamp(states('input_datetime.voltwise_plan_expiry'), 0) < as_timestamp(now()) }}
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.voltwise_battery_power
+      data:
+        value: 0
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.voltwise_target_soc
+      data:
+        value: "{{ state_attr('input_number.voltwise_target_soc', 'current_value') | default(50) }}"
+    - service: number.set_value
+      target:
+        entity_id: number.voltwise_ev_charge_power
+      data:
+        value: 0
+    - service: persistent_notification.create
+      data:
+        title: VoltWise watchdog
+        message: >-
+          VoltWise plan expired. Setpoints were forced to zero. Check the add-on log.
+        notification_id: voltwise_watchdog

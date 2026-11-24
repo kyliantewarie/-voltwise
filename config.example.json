@@ -1,0 +1,42 @@
+{
+  "name": "Example home",
+  "n_slots": 8,
+  "interval_minutes": 60,
+  "battery": {
+    "capacity_kwh": 10.0,
+    "initial_soc_pct": 50.0,
+    "soc_min_pct": 10.0,
+    "soc_max_pct": 95.0,
+    "reserve_soc_pct": 20.0,
+    "max_charge_kw": 5.0,
+    "max_discharge_kw": 5.0,
+    "charge_efficiency": 0.95,
+    "discharge_efficiency": 0.95,
+    "degradation_cost_per_kwh": 0.02
+  },
+  "site": {
+    "max_grid_import_kw": 10.0,
+    "max_grid_export_kw": 10.0,
+    "feed_in_factor": 0.0
+  },
+  "ev": {
+    "capacity_kwh": 60.0,
+    "initial_soc_pct": 40.0,
+    "target_soc_pct": 80.0,
+    "deadline_slot": 7,
+    "max_charge_kw": 11.0,
+    "charge_efficiency": 0.95
+  },
+  "tariff": {
+    "provider": "manual",
+    "manual_prices": [0.05, 0.04, 0.03, 0.02, 0.10, 0.30, 0.40, 0.20]
+  },
+  "forecast": {
+    "provider": "manual",
+    "solar_kw": [0, 0, 0, 0, 2, 4, 3, 0],
+    "consumption_kw": [0.5, 0.4, 0.4, 0.5, 0.6, 0.8, 1.0, 0.7]
+  },
+  "actuation": {
+    "enabled": false
+  }
+}
