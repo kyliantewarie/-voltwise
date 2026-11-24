@@ -43,6 +43,7 @@ Highlights:
 | Live API end-to-end check | 2 (Cloudflare blocked default User-Agent; full-day payload window selection) | Fixed; live provider now returns real prices |
 | Hardware simulator | Built fake HA REST API + battery/EV/grid physics; then adversarial review found 11 false-confidence defects (MQTT/Modbus ignored, watchdog helpers, stale SOC, dropped config, sub-hourly, ramp units, BMS taper, service metrics, patch race, EV path, dt=0 crash) | All fixed; 16 simulator tests pass |
 | Clean-room verification | Full CI command sequence locally (ruff/mypy/pip-audit/bandit/pytest/audit/release/config), isolated `pip install .` + CLI run, 9 adversarial simulation scenarios | All pass; only Docker build remains CI-only |
+| Release prep | Git installed, repo initialised, 3 commits, tag `v0.1.0-beta`, Dependabot config, `.gitattributes`, GPG signing pipeline verified with throwaway key | Done; remote/push needs a repository URL |
 
 ## Verification evidence
 
