@@ -2,17 +2,13 @@
 
 ## Repository state
 
-The repository is initialised locally on `main` with tag `v0.1.0-beta`.
-No remote is configured: add one and push to trigger CI (including the Docker
-image build, which cannot run locally):
+Published at `https://github.com/kyliantewarie/-voltwise` on branch `main` with
+tag `v0.1.0-beta`. GitHub Actions CI is green on Ubuntu, including the Docker
+image build that cannot run locally.
 
-```powershell
-git remote add origin https://github.com/kyliantewarie/-voltwise.git
-git push -u origin main --follow-tags
-```
-
-GPG signing was verified locally with a throwaway key (`audit/release.py` wrote
-and verified `SHA256SUMS.asc`). A real release key is still required.
+GPG signing was verified with a throwaway key (`audit/release.py` wrote and
+verified `SHA256SUMS.asc`). A real release key is still required before tagging
+a signed release.
 
 ## Release artefacts
 - [ ] `python -m pytest -q` passes (opt-in live/HIL tests may be skipped).
