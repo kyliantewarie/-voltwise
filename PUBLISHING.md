@@ -6,9 +6,32 @@ Published at `https://github.com/kyliantewarie/-voltwise` on branch `main` with
 tag `v0.1.0-beta`. GitHub Actions CI is green on Ubuntu, including the Docker
 image build that cannot run locally.
 
-GPG signing was verified with a throwaway key (`audit/release.py` wrote and
-verified `SHA256SUMS.asc`). A real release key is still required before tagging
-a signed release.
+## Release signing key
+
+Releases are signed with a dedicated Ed25519 key:
+
+- **Identity:** `VoltWise Release <348753426+kyliantewarie@users.noreply.github.com>`
+- **Fingerprint:** `D56BEC61E9AD6CD260475E3BB6A3D1EFBE45C548`
+- **Expires:** 2028-11-23
+- **Public key:** [`docs/release-key.asc`](docs/release-key.asc)
+
+The private key is held outside this repository by the maintainer. To sign a release:
+
+```powershell
+$env:GNUPGHOME = "$env:USERPROFILE\.voltwise\gnupg"
+$env:VOLTWISE_RELEASE_KEY = "D56BEC61E9AD6CD260475E3BB6A3D1EFBE45C548"
+$env:VOLTWISE_GPG_PASSPHRASE_FILE = "$env:USERPROFILE\.voltwise\release-passphrase.txt"
+python audit/release.py
+gpg --verify SHA256SUMS.asc
+```
+
+Attach `SHA256SUMS`, `SHA256SUMS.asc` and `docs/release-key.asc` to the GitHub
+release. Verify a downloaded release with:
+
+```powershell
+gpg --import release-key.asc
+gpg --verify SHA256SUMS.asc
+```
 
 ## Release artefacts
 - [ ] `python -m pytest -q` passes (opt-in live/HIL tests may be skipped).

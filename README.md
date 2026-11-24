@@ -132,6 +132,17 @@ constraints re-checked after optimisation, fail-closed fallback, HTTPS-only
  tariff endpoints, token redaction, allow-listed writes, circuit breaker, and
 a loopback-only read-only web UI.
 
+## Verifying a release
+
+Release archives are accompanied by `SHA256SUMS` and `SHA256SUMS.asc`, signed
+with the key in [`docs/release-key.asc`](docs/release-key.asc)
+(fingerprint `D56BEC61E9AD6CD260475E3BB6A3D1EFBE45C548`):
+
+```powershell
+gpg --import release-key.asc
+gpg --verify SHA256SUMS.asc
+```
+
 ## Audits
 
 Run `python audit/run_audits.py` to execute unit tests, functional/safety

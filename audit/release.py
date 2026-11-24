@@ -34,12 +34,14 @@ def sign(target: Path) -> bool:
     if not key:
         return False
     signature = target.with_name(target.name + ".asc")
+    command = ["gpg", "--batch", "--yes", "--armor", "--local-user", key,
+               "--detach-sign", "--output", str(signature), str(target)]
+    passphrase_file = os.environ.get("VOLTWISE_GPG_PASSPHRASE_FILE")
+    if passphrase_file:
+        command[1:1] = ["--pinentry-mode", "loopback",
+                        "--passphrase-file", passphrase_file]
     try:
-        subprocess.run(  # noqa: S603 - fixed argv, no shell
-            ["gpg", "--batch", "--yes", "--armor", "--local-user", key,
-             "--detach-sign", "--output", str(signature), str(target)],
-            check=True,
-        )
+        subprocess.run(command, check=True)  # noqa: S603 - fixed argv, no shell
     except (OSError, subprocess.SubprocessError) as exc:
         print(f"warning: signing unavailable ({type(exc).__name__}); artifacts are unsigned")
         return False
