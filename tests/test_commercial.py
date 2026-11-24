@@ -138,6 +138,28 @@ def test_shipped_public_key_rejects_attacker_key(monkeypatch):
     assert check_licence(key, "pro", require=True)[0] is False
 
 
+def test_licence_key_can_come_from_config_option(monkeypatch):
+    from voltwise.cli import main
+
+    private = _test_keypair(monkeypatch)
+    key = encode_licence({
+        "sub": "buyer", "features": ["core", "pro"], "exp": time.time() + 3600,
+    }, private)
+    data = make_config_dict()
+    data["actuation"] = {"adapter": "mqtt", "adapter_topic_prefix": "voltwise/x"}
+    data["actuation"]["adapter"] = "mqtt"
+    data["actuation"]["adapter_topic_prefix"] = "voltwise/x"
+    data["licensing"] = {"require": True, "key": key}
+    import json
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / "config.json"
+        path.write_text(json.dumps(data), encoding="utf-8")
+        monkeypatch.delenv("VOLTWISE_LICENCE_KEY", raising=False)
+        assert main(["--config", str(path), "--validate-only"]) == 0
+
+
 def test_licence_missing_key_is_denied():
     assert not check_licence(None, "core", require=True)[0]
 

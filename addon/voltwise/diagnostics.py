@@ -39,6 +39,8 @@ def build_bundle(config: VoltWiseConfig, plan: Plan | None, metrics: dict | None
         if os.environ.get(name)
     }
     secrets.add(os.environ.get("SUPERVISOR_TOKEN", ""))
+    if config.licensing.key:
+        secrets.add(config.licensing.key)
     return {
         "version": __version__,
         "python": platform.python_version(),

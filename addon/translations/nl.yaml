@@ -33,6 +33,9 @@ configuration:
       feature:
         name: Feature
         description: Feature tag required by this instance.
+      key:
+        name: Licentiesleutel
+        description: Plak de sleutel uit je aankoop.
   battery:
     name: Accu
     description: Fysieke limieten.

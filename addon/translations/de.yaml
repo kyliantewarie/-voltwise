@@ -33,6 +33,9 @@ configuration:
       feature:
         name: Feature
         description: Feature tag required by this instance.
+      key:
+        name: Lizenzschlüssel
+        description: Schlüssel aus dem Kauf einfügen.
   battery:
     name: Batterie
     description: Physische Grenzen.

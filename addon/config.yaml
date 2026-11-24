@@ -98,6 +98,7 @@ schema:
   licensing:
     require: bool
     key_env: str
+    key: 'str?'
     feature: str
   battery:
     capacity_kwh: float

@@ -331,18 +331,23 @@ class LicensingConfig:
 
     require: bool = False
     key_env: str = "VOLTWISE_LICENCE_KEY"
+    key: str | None = None
     feature: str = "core"
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> LicensingConfig:
-        allowed = frozenset({"require", "key_env", "feature"})
+        allowed = frozenset({"require", "key_env", "key", "feature"})
         _check_keys(data, allowed, "licensing")
         require = data.get("require", False)
         if not isinstance(require, bool):
             raise ConfigError("licensing.require must be a boolean")
+        licence_key = data.get("key")
+        if licence_key is not None and not isinstance(licence_key, str):
+            raise ConfigError("licensing.key must be a string")
         return cls(
             require=require,
             key_env=_string(data.get("key_env", "VOLTWISE_LICENCE_KEY"), "licensing.key_env", pattern=_TOKEN_ENV_RE),
+            key=licence_key,
             feature=_string(data.get("feature", "core"), "licensing.feature", max_len=32),
         )
 

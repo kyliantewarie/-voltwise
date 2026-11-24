@@ -289,7 +289,7 @@ def run_once(args: argparse.Namespace) -> int:
 
     from .licensing import check_licence, current_hwid
 
-    key = os.environ.get(config.licensing.key_env)
+    key = config.licensing.key or os.environ.get(config.licensing.key_env)
     hwid = current_hwid(args.config)
     if config.licensing.require:
         allowed, reason = check_licence(
