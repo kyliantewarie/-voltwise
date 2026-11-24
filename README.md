@@ -145,6 +145,11 @@ constraints re-checked after optimisation, fail-closed fallback, HTTPS-only
  tariff endpoints, token redaction, allow-listed writes, circuit breaker, and
 a loopback-only read-only web UI.
 
+## Licensing and attribution
+
+VoltWise is Apache-2.0 licensed. See `ATTRIBUTION.md` for the design references
+used by the web UI and the relevant upstream licences.
+
 ## Verifying a release
 
 Release archives are accompanied by `SHA256SUMS` and `SHA256SUMS.asc`, signed
