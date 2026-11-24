@@ -2,7 +2,7 @@ name: VoltWise
 version: 0.1.0
 slug: voltwise
 description: Optimise home battery and EV charging against dynamic electricity prices
-url: https://github.com/kyliantewarie/-voltwise
+url: https://github.com/kyliantewarie/voltwise
 arch:
   - aarch64
   - amd64

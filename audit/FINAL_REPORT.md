@@ -44,7 +44,7 @@ Highlights:
 | Hardware simulator | Built fake HA REST API + battery/EV/grid physics; then adversarial review found 11 false-confidence defects (MQTT/Modbus ignored, watchdog helpers, stale SOC, dropped config, sub-hourly, ramp units, BMS taper, service metrics, patch race, EV path, dt=0 crash) | All fixed; 16 simulator tests pass |
 | Clean-room verification | Full CI command sequence locally (ruff/mypy/pip-audit/bandit/pytest/audit/release/config), isolated `pip install .` + CLI run, 9 adversarial simulation scenarios | All pass; only Docker build remains CI-only |
 | Release prep | Git installed, repo initialised, tag `v0.1.0-beta`, Dependabot config, `.gitattributes`, GPG signing pipeline verified with throwaway key | Done |
-| Publication | Pushed to `github.com/kyliantewarie/-voltwise`; first CI run exposed a Linux-only test failure (platform-dependent `RecursionError` depth) | Fixed with explicit `json_safe.ensure_json_depth`; CI run #9 green on Ubuntu incl. Docker build; stale Dependabot PRs closed |
+| Publication | Pushed to `github.com/kyliantewarie/voltwise`; first CI run exposed a Linux-only test failure (platform-dependent `RecursionError` depth) | Fixed with explicit `json_safe.ensure_json_depth`; CI run #9 green on Ubuntu incl. Docker build; stale Dependabot PRs closed |
 
 ## Verification evidence
 
