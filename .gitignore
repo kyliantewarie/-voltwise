@@ -26,3 +26,11 @@ Thumbs.db
 # Generated release artefacts (produced by CI, not committed)
 SHA256SUMS
 SHA256SUMS.asc
+
+# Local credentials — never commit
+.env
+*.token
+.github_token.txt
+.gumroad_token.txt
+*.pem
+*.key
