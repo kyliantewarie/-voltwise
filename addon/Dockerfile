@@ -1,4 +1,4 @@
-FROM ghcr.io/hassio-addons/base:12.2.4@sha256:edc3374383377636ce969be3f42d3413d811435c06fafe188b0b8c33b05f3c13
+FROM ghcr.io/hassio-addons/base:21.1.0@sha256:ce73287a53cc08874e5fa8e3fe3e9aac098171c40326c0d384e93a5761e067b2
 
 LABEL org.opencontainers.image.title="VoltWise" \
       org.opencontainers.image.description="Dynamic-tariff battery and EV optimiser" \
