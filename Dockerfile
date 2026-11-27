@@ -1,5 +1,5 @@
 # Standalone image for Home Assistant Container / generic Docker users.
-FROM python:3.12-alpine@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89
+FROM python:3.15-alpine@sha256:0f9552bb28711333da16915ec146f5e6bb44a7fdac9ced15dc17c2e0206346dd
 
 LABEL org.opencontainers.image.title="VoltWise" \
       org.opencontainers.image.licenses="Apache-2.0"
