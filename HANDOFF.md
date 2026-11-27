@@ -4,27 +4,30 @@
 
 | Item | Location |
 |---|---|
-| Source + git repo | `C:\Users\kylia\Desktop\herdr projecten\voltwise` (branch `main`, clean) |
+| Source + git repo | This repository root (`.`), branch `main` |
 | GitHub | https://github.com/kyliantewarie/voltwise (public, Apache-2.0) |
-| Release | https://github.com/kyliantewarie/voltwise/releases/tag/v0.1.0-beta (prerelease, 3 signed assets) |
+| Release | See `PUBLISHING.md`; tags are created manually as a release step |
 | Gumroad product | Published ("VoltWise Pro Kit") |
-| Gumroad ZIP | `dist\voltwise-pro-kit.zip` (56 files, includes licence key + docs + screenshots) |
-| Gumroad copy | `dist\GUMROAD_LISTING.md` |
-| Screenshots | `dist\screenshots\` (desktop, mobile, 600×600 thumbnail) |
-| Full audit history | `audit\FINAL_REPORT.md` |
+| Gumroad ZIP | `dist/voltwise-pro-kit.zip` (56 files, includes licence key + docs + screenshots) |
+| Gumroad copy | `dist/GUMROAD_LISTING.md` |
+| Screenshots | `dist/screenshots/` (desktop, mobile, 600×600 thumbnail) |
+| Full audit history | `audit/FINAL_REPORT.md` |
 | Publishing process | `PUBLISHING.md` |
 | Contribution rules | `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `ATTRIBUTION.md` |
 
 ## Keys (outside the repository — do not commit)
 
-| Item | Path |
+All signing material stays on maintainer-controlled machines outside the repo.
+The paths are supplied at run time; no infrastructure paths are recorded here.
+
+| Item | Reference |
 |---|---|
-| GPG release public key | `docs\release-key.asc` (fingerprint `D56BEC61E9AD6CD260475E3BB6A3D1EFBE45C548`) |
-| GPG private key | `C:\Users\kylia\.voltwise\gnupg` (GPG home) |
-| GPG passphrase | `C:\Users\kylia\.voltwise\release-passphrase.txt` |
-| GPG private backup | `C:\Users\kylia\.voltwise\voltwise-release-PRIVATE.asc` |
-| Licence signing private key | `C:\Users\kylia\.voltwise\licence-private.pem` |
-| Licence mint script | `audit\mint_licence.py` |
+| GPG release public key | `docs/release-key.asc` (fingerprint `D56BEC61E9AD6CD260475E3BB6A3D1EFBE45C548`) |
+| GPG private key | Supplied via `$env:GNUPGHOME` (maintainer-controlled GPG home) |
+| GPG passphrase | Supplied via `$env:VOLTWISE_GPG_PASSPHRASE_FILE` |
+| GPG private backup | Maintain offline, outside this repository; select the signing key with `$env:VOLTWISE_RELEASE_KEY` |
+| Licence signing private key | Supplied via `$env:VOLTWISE_LICENCE_PRIVATE_KEY` (or `--key-file`) |
+| Licence mint script | `audit/mint_licence.py` |
 
 ## Last verified state
 

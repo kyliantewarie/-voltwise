@@ -6,6 +6,12 @@ Published at `https://github.com/kyliantewarie/voltwise` on branch `main` with
 tag `v0.1.0-beta`. GitHub Actions CI is green on Ubuntu, including the Docker
 image build that cannot run locally.
 
+> **Tag creation is a manual release step.** CI and the audit scripts never
+> create tags or releases. A maintainer creates and pushes the version tag only
+> after the release checklist passes; a fresh clone may therefore have no tags
+> even though the documentation refers to `v0.1.0-beta`. Treat the tag name as
+> the intended naming convention until that manual step has been performed.
+
 ## Release signing key
 
 Releases are signed with a dedicated Ed25519 key:

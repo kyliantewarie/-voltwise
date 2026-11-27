@@ -1,6 +1,6 @@
 build_from:
-  aarch64: ghcr.io/hassio-addons/base:3.20
-  amd64: ghcr.io/hassio-addons/base:3.20
-  armv7: ghcr.io/hassio-addons/base:3.20
+  aarch64: ghcr.io/hassio-addons/base:12.2.4@sha256:edc3374383377636ce969be3f42d3413d811435c06fafe188b0b8c33b05f3c13
+  amd64: ghcr.io/hassio-addons/base:12.2.4@sha256:edc3374383377636ce969be3f42d3413d811435c06fafe188b0b8c33b05f3c13
+  armv7: ghcr.io/hassio-addons/base:12.2.4@sha256:edc3374383377636ce969be3f42d3413d811435c06fafe188b0b8c33b05f3c13
 args:
   VOLTWISE_VERSION: 0.1.0

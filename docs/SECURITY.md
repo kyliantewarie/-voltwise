@@ -17,7 +17,7 @@ Outputs are numeric setpoints written to Home Assistant entities.
 | Writes | Requires `enabled: true`, `--apply`, and (when configured) `--confirm`; entity-ID regex, explicit allow-list, domain allow-list, finite values, circuit breaker; dry-run by default |
 | Web UI | Local mode binds loopback; add-on mode binds the container interface (required by Supervisor ingress) with a private/loopback source-IP filter; read-only GET/HEAD; HTML escaping; no file serving; strict CSP; no request-header logging |
 | Code execution | No `eval`, `exec`, `pickle`, `shell=True`, `os.system`, dynamic imports from user data |
-| Dependencies | Small pinned runtime set (PyYAML, cryptography); SBOM generated from requirements files by the audit script |
+| Dependencies | Small fully pinned runtime set (PyYAML `==6.0.3`, cryptography `==50.0.2`); SBOM generated from requirements files by the audit script |
 
 ## Reporting a vulnerability
 

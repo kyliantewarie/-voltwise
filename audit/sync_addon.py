@@ -19,33 +19,40 @@ SOURCE = ROOT / "voltwise"
 CONTEXT = ROOT / "addon"
 
 
-def sync() -> list[str]:
-    """Copy sources into addon/ and return the list of written relative paths."""
+def sync(context: Path | None = None) -> list[str]:
+    """Copy sources into a build context (``addon/`` by default).
+
+    Passing ``context`` lets tests stage a throw-away copy instead of rewriting
+    the tracked add-on files.
+    """
+    target_root = context if context is not None else CONTEXT
+    base = ROOT if context is None else target_root
     written: list[str] = []
-    target_package = CONTEXT / "voltwise"
+    target_package = target_root / "voltwise"
     if target_package.exists():
         shutil.rmtree(target_package)
     target_package.mkdir(parents=True, exist_ok=True)
     for source in sorted(SOURCE.glob("*.py")):
         destination = target_package / source.name
         shutil.copy2(source, destination)
-        written.append(destination.relative_to(ROOT).as_posix())
+        written.append(destination.relative_to(base).as_posix())
     requirements = ROOT / "requirements.txt"
-    shutil.copy2(requirements, CONTEXT / "requirements.txt")
-    written.append("addon/requirements.txt")
+    shutil.copy2(requirements, target_root / "requirements.txt")
+    written.append((target_root / "requirements.txt").relative_to(base).as_posix())
     return written
 
 
-def fingerprints() -> dict[str, str]:
+def fingerprints(context: Path | None = None) -> dict[str, str]:
     """Hash source and vendored files so the audit can prove they match."""
+    target_root = context if context is not None else CONTEXT
     result: dict[str, str] = {}
     for source in sorted(SOURCE.glob("*.py")):
-        vendored = CONTEXT / "voltwise" / source.name
+        vendored = target_root / "voltwise" / source.name
         if vendored.is_file():
             result[source.name] = hashlib.sha256(source.read_bytes()).hexdigest()
             result[source.name + "@addon"] = hashlib.sha256(vendored.read_bytes()).hexdigest()
     source_req = ROOT / "requirements.txt"
-    vendored_req = CONTEXT / "requirements.txt"
+    vendored_req = target_root / "requirements.txt"
     if source_req.is_file() and vendored_req.is_file():
         result["requirements.txt"] = hashlib.sha256(source_req.read_bytes()).hexdigest()
         result["requirements.txt@addon"] = hashlib.sha256(vendored_req.read_bytes()).hexdigest()

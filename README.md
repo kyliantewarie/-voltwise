@@ -16,11 +16,11 @@ while enforcing hard physical and connection limits.
 
 ## Why this exists
 
-Research into the Home Assistant add-on market (see `../Home Assistant Market
-Research.md`) identified dynamic-tariff battery optimisation as the strongest
-software opportunity: many fragmented community projects, high-value European
-households, and no polished product. VoltWise implements the core engine with
-a safe, auditable architecture.
+Research into the Home Assistant add-on market identified dynamic-tariff
+battery optimisation as the strongest software opportunity: many fragmented
+community projects, high-value European households, and no polished product.
+VoltWise implements the core engine with a safe, auditable architecture
+(see `docs/ARCHITECTURE.md`).
 
 ## How it works
 

@@ -12,7 +12,6 @@ from sync_addon import fingerprints, sync  # noqa: E402
 
 
 def test_addon_build_context_contains_all_copy_sources():
-    sync()
     addon = ROOT / "addon"
     dockerfile = (addon / "Dockerfile").read_text(encoding="utf-8")
     for line in dockerfile.splitlines():
@@ -23,12 +22,25 @@ def test_addon_build_context_contains_all_copy_sources():
                 assert (addon / source).exists(), f"missing from build context: {source}"
 
 
-def test_vendored_sources_match_root_exactly():
-    sync()
-    hashes = fingerprints()
-    for name, digest in hashes.items():
+def test_vendored_sources_match_root_exactly(tmp_path):
+    # Read-only check of the tracked build context: no sync() on the working tree.
+    before = fingerprints()
+    for name, digest in before.items():
         if not name.endswith("@addon"):
-            assert hashes[name + "@addon"] == digest, f"stale vendored copy: {name}"
+            assert before[name + "@addon"] == digest, f"stale vendored copy: {name}"
+    expected = {path.name for path in (ROOT / "voltwise").glob("*.py")} | {"requirements.txt"}
+    assert expected <= set(before), f"missing vendored files: {sorted(expected - set(before))}"
+
+    # Exercise a fresh sync in a throw-away context and compare hashes there.
+    sync(tmp_path)
+    staged = fingerprints(tmp_path)
+    assert expected <= set(staged)
+    for name, digest in staged.items():
+        if not name.endswith("@addon"):
+            assert staged[name + "@addon"] == digest, f"stale staged copy: {name}"
+
+    # The tracked tree must be byte-for-byte untouched by the test.
+    assert fingerprints() == before
 
 
 def test_watchdog_automation_is_shipped():

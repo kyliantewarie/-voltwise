@@ -14,6 +14,7 @@ import platform
 import random
 import subprocess
 import sys
+import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -369,13 +370,23 @@ def packaging_audit() -> list[Finding]:
     return findings
 
 
+def _next_sbom_version() -> int:
+    """Increment the checked-in SBOM version so every generation has a new version."""
+    try:
+        previous = json.loads(SBOM.read_text(encoding="utf-8"))
+        return int(previous.get("version", 0)) + 1
+    except (OSError, ValueError, TypeError):
+        return 1
+
+
 def generate_sbom() -> dict:
-    """Generate a CycloneDX SBOM from the actual installed environment."""
+    """Generate a CycloneDX SBOM from the requirement pins and installed environment."""
     from importlib import metadata
 
     components: list[dict] = []
     runtime: set[str] = set()
     dev: set[str] = set()
+    pins: dict[str, str] = {}
     for filename, default in (
         ("requirements.txt", True),
         ("requirements-dev.txt", False),
@@ -388,19 +399,24 @@ def generate_sbom() -> dict:
             if not line or line.startswith(("#", "-r")):
                 continue
             name = line.split("==")[0].split(">=")[0].split("<=")[0].strip()
-            if name:
-                (runtime if default else dev).add(name.lower())
+            if not name:
+                continue
+            key = name.lower()
+            (runtime if default else dev).add(key)
+            if "==" in line:
+                pins[key] = line.split("==", 1)[1].strip()
 
     for name in sorted(runtime | dev):
         try:
-            version = metadata.version(name)
+            installed_version = metadata.version(name)
         except metadata.PackageNotFoundError:
-            version = "unknown"
+            installed_version = None
+        version = pins.get(name) or installed_version or "unknown"
         try:
             raw = metadata.metadata(name).get("License") or ""
             license_name = raw.split("\n")[0][:64] or "see-package-metadata"
         except metadata.PackageNotFoundError:
-            license_name = "unknown (not installed)"
+            license_name = "see-package-metadata" if name in pins else "unknown (not installed)"
         components.append({
             "type": "library", "name": name, "version": version,
             "licenses": [{"license": {"name": license_name}}],
@@ -410,11 +426,19 @@ def generate_sbom() -> dict:
         "type": "library", "name": "python", "version": platform.python_version(),
         "licenses": [{"license": {"name": "PSF-2.0"}}], "scope": "required",
     })
+    environment_note = (
+        "Versions below describe the standalone build's Python environment "
+        "(requirements.txt / requirements-dev.txt). The Home Assistant add-on "
+        "image installs Alpine apk packages (python3, py3-yaml, py3-cryptography) "
+        "from its pinned base image instead of these PyPI wheels. No system/apks "
+        "metadata is asserted here because it cannot be verified from this "
+        "standalone environment."
+    )
     return {
         "bomFormat": "CycloneDX",
         "specVersion": "1.5",
-        "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79",
-        "version": 1,
+        "serialNumber": f"urn:uuid:{uuid.uuid4()}",
+        "version": _next_sbom_version(),
         "metadata": {
             "timestamp": datetime.now(UTC).isoformat(),
             "component": {
@@ -422,6 +446,9 @@ def generate_sbom() -> dict:
                 "licenses": [{"license": {"id": "Apache-2.0"}}],
             },
             "tools": [{"vendor": "OpenCode", "name": "voltwise-audit"}],
+            "properties": [
+                {"name": "voltwise:environment-note", "value": environment_note},
+            ],
         },
         "components": components,
     }

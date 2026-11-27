@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79",
-  "version": 1,
+  "serialNumber": "urn:uuid:a3fdb824-d9b9-4e10-b9ad-dcf3f00aa203",
+  "version": 3,
   "metadata": {
-    "timestamp": "2026-11-24T10:45:48.520757+00:00",
+    "timestamp": "2026-11-27T09:12:54.984615+00:00",
     "component": {
       "type": "application",
       "name": "voltwise",
@@ -21,6 +21,12 @@
       {
         "vendor": "OpenCode",
         "name": "voltwise-audit"
+      }
+    ],
+    "properties": [
+      {
+        "name": "voltwise:environment-note",
+        "value": "Versions below describe the standalone build's Python environment (requirements.txt / requirements-dev.txt). The Home Assistant add-on image installs Alpine apk packages (python3, py3-yaml, py3-cryptography) from its pinned base image instead of these PyPI wheels. No system/apks metadata is asserted here because it cannot be verified from this standalone environment."
       }
     ]
   },
@@ -107,6 +113,19 @@
       "type": "library",
       "name": "ruff",
       "version": "0.17.6",
+      "licenses": [
+        {
+          "license": {
+            "name": "see-package-metadata"
+          }
+        }
+      ],
+      "scope": "dev"
+    },
+    {
+      "type": "library",
+      "name": "setuptools",
+      "version": "84.2.1",
       "licenses": [
         {
           "license": {

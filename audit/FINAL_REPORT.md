@@ -16,7 +16,7 @@ Highlights:
 - Distribution: add-on, HACS integration, standalone Docker image, generic/MQTT/Modbus adapters.
 - Operations: CI with ruff/mypy/pytest/audit/Docker build, single-source version, generated
   SBOM, structured logs and metrics, disclosure/signing process.
-- Commercial: offline HMAC licensing with feature gating, onboarding discovery, nl/de
+- Commercial: offline Ed25519 licensing with feature gating, onboarding discovery, nl/de
   translations, sanitised diagnostics bundles.
 
 ## Adversarial campaigns
